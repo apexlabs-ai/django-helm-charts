@@ -1,0 +1,19 @@
+{{- if .Values.api.hpa.enabled -}}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "django.fullname" . }}
+  labels:
+    app: {{ template "django.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    apiVersion: apps/v1
+    name: {{ template "django.fullname" . }}
+  minReplicas: {{ .Values.api.hpa.minpods }}
+  maxReplicas: {{ .Values.api.hpa.maxpods }}
+  targetCPUUtilizationPercentage: {{ .Values.api.hpa.cputhreshold }}
+{{- end }}

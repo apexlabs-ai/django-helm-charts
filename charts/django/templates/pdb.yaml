@@ -1,0 +1,16 @@
+{{- if .Values.api.budget -}}
+{{- if .Values.api.budget.minAvailable -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "django.fullname" . }}
+  labels:
+    {{- include "django.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.api.budget.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "django.selectorLabels" . | nindent 6 }}
+      role: web
+{{- end -}}
+{{- end -}}

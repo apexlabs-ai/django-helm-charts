@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "django.fullname" . }}
+  labels:
+    {{- include "django.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "0"
+    checksum/secret: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+    checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    tag: "{{ .Values.image.tag }}"
+spec:
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: pre-install-job
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["./manage.py","migrate"]
+        env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: "/secrets/google-credentials.json"
+          - name: DJANGO_DEBUG
+            value: "False"
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        envFrom:
+          - secretRef:
+              name: {{ include "django.fullname" . }}
+          - configMapRef:
+              name: {{ include "django.fullname" . }}
+        volumeMounts:
+          - name: secrets
+            mountPath: /secrets
+            readOnly: true
+      volumes:
+        - name: secrets
+          secret:
+            secretName: {{ include "django.fullname" . }}
