@@ -1,5 +1,5 @@
-{{- if .Values.api.budget -}}
-{{- if .Values.api.budget.minAvailable -}}
+{{- if .Values.web.budget -}}
+{{- if .Values.web.budget.minAvailable -}}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "django.labels" . | nindent 4 }}
 spec:
-  minAvailable: {{ .Values.api.budget.minAvailable }}
+  minAvailable: {{ .Values.web.budget.minAvailable }}
   selector:
     matchLabels:
       {{- include "django.selectorLabels" . | nindent 6 }}

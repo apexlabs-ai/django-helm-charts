@@ -20,7 +20,7 @@ djstripeWebhookSecret:
 
 environmentVariables:
 
-api:
+web:
   replicaCount: 1
   hpa:
     enabled: false

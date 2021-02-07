@@ -51,12 +51,7 @@ spec:
               mountPath: /secrets
               readOnly: true
           command:
-            - celery
-            - -A
-            - config
-            - -l
-            - info
-            - beat
+            - /start-celerybeat
       volumes:
         - name: secrets
           secret:
