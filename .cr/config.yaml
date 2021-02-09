@@ -1,0 +1,5 @@
+owner: apexlabs-ai
+git-repo: django-helm-charts
+package-path: .deploy
+git-base-url: https://api.github.com/
+git-upload-url: https://uploads.github.com/
