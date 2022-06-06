@@ -2,7 +2,7 @@ apiVersion: v2
 name: django
 description: DJANGO Backend to support the mobile applications, payments and user base.
 type: application
-version: 0.1.6
+version: 0.1.7
 appVersion: 3.1
 
 dependencies:
@@ -11,6 +11,6 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   - name: redis
-    version: 16.x.x
+    version: 12.7.4
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
