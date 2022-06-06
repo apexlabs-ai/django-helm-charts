@@ -3,6 +3,25 @@ entries:
   django:
   - apiVersion: v2
     appVersion: "3.1"
+    created: "2022-06-06T19:50:57.002803221Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.x.x
+    description: DJANGO Backend to support the mobile applications, payments and user base.
+    digest: dcba289dc523a6d7513d6adb51775066578e3ac73625c89510ff0f51e4b74818
+    name: django
+    type: application
+    urls:
+    - https://github.com/apexlabs-ai/django-helm-charts/releases/download/django-0.1.10/django-0.1.10.tgz
+    version: 0.1.10
+  - apiVersion: v2
+    appVersion: "3.1"
     created: "2022-06-06T19:23:31.6078239Z"
     dependencies:
     - condition: postgresql.enabled
